@@ -18,19 +18,18 @@ Contributions are welcome! Please read the [Contributing Guide](CONTRIBUTING.md)
 ## Table of Contents
 
 1. [Directory Layout](#directory-layout)
-2. [Dataset & Corpus](#dataset--corpus)
-3. [ML Pipeline Phases](#ml-pipeline-phases)
+2. [ML Pipeline Phases](#ml-pipeline-phases)
    - [Phase 1 — Raw Program Corpus](#phase-1--raw-program-corpus)
    - [Phase 2/3 — Runner, Extractor & Storage](#phase-23--runner-extractor--storage)
    - [Phase 4 — Preprocessing & Feature Engineering](#phase-4--preprocessing--feature-engineering)
    - [Phase 5 — Training (Clustering → Classification → Prediction)](#phase-5--training-clustering--classification--prediction)
    - [Phase 6 — Inference](#phase-6--inference)
-4. [Source Modules](#source-modules)
-5. [Notebooks](#notebooks)
-6. [Trained Model Artifacts](#trained-model-artifacts)
-7. [Python API](#python-api)
-8. [CLI Reference](#cli-reference)
-9. [Development Notes](#development-notes)
+3. [Source Modules](#source-modules)
+4. [Notebooks](#notebooks)
+5. [Trained Model Artifacts](#trained-model-artifacts)
+6. [Python API](#python-api)
+7. [CLI Reference](#cli-reference)
+8. [Development Notes](#development-notes)
 
 ---
 
@@ -85,21 +84,6 @@ Optilang-ML/
     ├── predict.py      # OptiLangPredictor inference class + CLI
     └── pipeline.py     # OptiLangMLPipeline high-level orchestrator
 ```
-
----
-
-## Dataset & Corpus
-
-| Item | Value |
-|------|-------|
-| Corpus source | [TheAlgorithms/Python](https://github.com/TheAlgorithms/Python) |
-| Total programs | 1 000 |
-| Execution meta rows | 690 |
-| Successful executions | 684 |
-| Pathological / error executions | 6 |
-| Suggestion rows | 1 410 |
-
-Raw programs are stored under `data/raw/`, preserving the original category folder structure and filenames. There are **no** manifest, strategy label, or family label files in the raw path — all labels are derived during preprocessing and training.
 
 ---
 
