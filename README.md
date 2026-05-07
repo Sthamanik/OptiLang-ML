@@ -27,9 +27,7 @@ Contributions are welcome! Please read the [Contributing Guide](CONTRIBUTING.md)
 3. [Source Modules](#source-modules)
 4. [Notebooks](#notebooks)
 5. [Trained Model Artifacts](#trained-model-artifacts)
-6. [Python API](#python-api)
-7. [CLI Reference](#cli-reference)
-8. [Development Notes](#development-notes)
+6. [Development Notes](#development-notes)
 
 ---
 
@@ -283,98 +281,6 @@ Run notebooks in order. Each notebook expects artifacts from the previous step.
 | `best_randomforest_rank_predictor.joblib` | Random Forest | Predicts program-cluster priority rank |
 
 > All model artifacts are **git-ignored**. They must be generated locally by running the training pipeline, or obtained from a shared artefact store.
-
----
-
-## Python API
-
-### `OptiLangMLPipeline` — High-Level Orchestrator
-
-```python
-from optilang.ml import OptiLangMLPipeline
-
-# Step-by-step
-pipeline = OptiLangMLPipeline()
-pipeline.collect_data(limit=50)   # run programs, extract features, write executions.csv
-pipeline.preprocess()              # feature engineering, save feature matrix & transformers
-pipeline.train()                   # clustering → classification → rank prediction
-results = pipeline.predict(input_data="data/executions.csv", output_csv="predictions.csv")
-
-# Or run everything in one call
-results = OptiLangMLPipeline.full_lifecycle(
-    raw_dir="optilang/ml/data/raw/",
-    output_predictions="predictions.csv",
-)
-```
-
-### `OptiLangPredictor` — Low-Level Inference
-
-```python
-from optilang.ml import OptiLangPredictor
-import pandas as pd
-
-predictor = OptiLangPredictor()  # loads all model artifacts automatically
-
-# From a CSV file
-results = predictor.predict_csv("data/executions.csv", output_csv="predictions.csv")
-
-# From a DataFrame
-raw_rows = pd.read_csv("data/executions.csv")
-results = predictor.predict_rows(raw_rows)
-
-print(results[["program_id", "cluster_name", "predicted_pattern", "predicted_priority_rank"]])
-```
-
-### Individual Training Stages
-
-```python
-from optilang.ml import run_preprocess, run_clustering, run_classification, run_prediction
-
-run_preprocess()
-
-import pandas as pd
-X_raw = pd.read_csv("data/executions_features_raw.csv")
-meta  = pd.read_csv("data/executions_meta.csv")
-
-labels, k, holdout_idx, holdout_programs = run_clustering(X_raw, meta)
-run_classification(X_raw, meta, holdout_programs, k)
-run_prediction(meta, X_raw)
-```
-
----
-
-## CLI Reference
-
-### Runner
-
-```bash
-python3 -m optilang.ml.src.runner [OPTIONS]
-
-Options:
-  --limit N             Process only the first N programs
-  --skip-pathological   Skip programs that are known to hang or error
-  --timeout SECONDS     Per-program execution timeout (default: 5)
-  --append              Append to existing executions.csv instead of replacing
-```
-
-### Predictor
-
-```bash
-python3 -m optilang.ml.src.predict [OPTIONS]
-
-Input (mutually exclusive):
-  --input-csv PATH      Executions-style CSV to score (default: data/executions.csv)
-  --source PATH         Python file or directory to execute before prediction
-
-Options:
-  --output-csv PATH     Destination for prediction rows (default: data/predictions.csv)
-  --models-dir PATH     Path to model artifacts directory (default: models/)
-  --data-dir PATH       Path to data directory (default: data/)
-  --timeout SECONDS     Per-program timeout when using --source (default: 5)
-  --limit N             Limit number of source programs when using --source
-  --skip-pathological   Skip pathological programs when using --source
-  --top N               Number of preview rows to print (default: 10)
-```
 
 ---
 
