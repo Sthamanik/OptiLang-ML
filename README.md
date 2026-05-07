@@ -9,6 +9,10 @@ Raw Programs → Execution & Extraction → Feature Engineering
 
 Models are trained on a corpus of 1 000 real-world Python programs sourced from [TheAlgorithms/Python](https://github.com/TheAlgorithms/Python). The trained artifacts are used at inference time to cluster incoming suggestion rows, classify their optimization pattern, and rank which clusters deserve the most attention per program.
 
+## Contributing
+
+Contributions are welcome! Please read the [Contributing Guide](CONTRIBUTING.md) before opening a pull request.
+
 ---
 
 ## Table of Contents
