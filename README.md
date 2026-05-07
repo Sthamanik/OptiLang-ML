@@ -1,8 +1,6 @@
 # OptiLang ML Extension
 
-> **Status:** Active — models trained, inference pipeline production-ready.
-
-The `optilang.ml` package is a self-contained machine-learning extension for OptiLang. It builds an end-to-end pipeline from raw Python source programs to actionable, prioritised optimization predictions:
+This package is a self-contained machine-learning extension for OptiLang. It builds an end-to-end pipeline from raw Python source programs to actionable, prioritised optimization predictions:
 
 ```
 Raw Programs → Execution & Extraction → Feature Engineering
@@ -35,7 +33,7 @@ Models are trained on a corpus of 1 000 real-world Python programs sourced from 
 ## Directory Layout
 
 ```text
-optilang/ml/
+Optilang-ML/
 ├── README.md
 ├── __init__.py
 ├── .gitignore
