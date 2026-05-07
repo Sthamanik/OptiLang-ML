@@ -1,0 +1,55 @@
+name: Pipeline CI
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main]
+
+jobs:
+  pipeline-smoke-test:
+    name: Smoke Test (runner → preprocess → train → predict)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Create required directories
+        run: |
+          mkdir -p data models
+          touch data/.gitkeep models/.gitkeep
+
+      - name: Step 1 — Run corpus (limit 20)
+        run: python3 -m optilang.ml.src.runner --limit 20 --skip-pathological --timeout 5
+
+      - name: Step 2 — Preprocess features
+        run: python3 -m optilang.ml.src.preprocess
+
+      - name: Step 3 — Train models
+        run: python3 -m optilang.ml.src.train
+
+      - name: Step 4 — Run inference
+        run: |
+          python3 -m optilang.ml.src.predict \
+            --input-csv data/executions.csv \
+            --output-csv data/predictions.csv \
+            --top 5
+
+      - name: Verify prediction output exists
+        run: |
+          if [ ! -f data/predictions.csv ]; then
+            echo "predictions.csv not found — pipeline failed"
+            exit 1
+          fi
+          echo "Predictions generated:"
+          head -5 data/predictions.csv

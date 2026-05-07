@@ -1,0 +1,11 @@
+services:
+  optilang-ml:
+    build: .
+    container_name: optilang-ml
+    volumes:
+      # Mount data and models so artifacts persist on the host
+      - ./data:/app/data
+      - ./models:/app/models
+    environment:
+      - PYTHONUNBUFFERED=1
+    command: ["python3", "-m", "optilang.ml.src.pipeline"]
