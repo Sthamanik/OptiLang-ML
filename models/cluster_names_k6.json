@@ -1,0 +1,8 @@
+{
+  "0": "string_builder_refactor",
+  "1": "hoist_and_fold",
+  "2": "pure_constant_fold",
+  "3": "guard_clause_exit",
+  "4": "runtime_cost_reduction",
+  "5": "dead_code_elimination"
+}

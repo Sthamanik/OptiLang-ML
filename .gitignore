@@ -61,6 +61,7 @@ models/
 *.joblib.*
 *.pickle
 
-# Keep placeholders for git tracking
-!data/.gitkeep
-!models/.gitkeep
+!data/executions.csv
+!models/best_randomforest_rank_predictor.joblib
+!models/classifier_xgboost_k6.pkl
+!models/
